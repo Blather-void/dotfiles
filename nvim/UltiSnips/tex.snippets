@@ -1,28 +1,313 @@
-snippet template "Basic template" b
-\documentclass[letterpaper]{article}
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
-\usepackage{amsmath, amssymb, amsthm}
-\usepackage{parskip}
-\usepackage[letterpaper, margin=1in]{geometry}
+#get math context so no weird stuff happens
+global !p
+def math():
+  return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+endglobal
 
 
-% figure support
-\usepackage{import}
-\usepackage{xifthen}
-\pdfminorversion=7
-\usepackage{pdfpages}
-\usepackage{transparent}
-\newcommand{\incfig}[1]{%
-	\def\svgwidth{\columnwidth}
-	\import{./figures/}{#1.pdf_tex}
-}
+#Environements
 
-\pdfsuppresswarningpagegroup=1
-
-\begin{document}
-	$0
-\end{document}
+# make a generic new environment
+snippet env "environement make" b
+\begin{$1}
+$2
+\end{$1}
+$0
 endsnippet
+
+#Formatting stuff
+#----------------------------------
+snippet tii "make things italic"
+\textit{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "(^|[^a-zA-Z])mm" "inline math" rA 
+`!p snip.rv = match.group(1)` \$ ${1:${VISUAL:}} \$$0
+endsnippet
+
+
+#Math
+#----------------------------------
+
+snippet "([\w]|[\}\)\]\|'])'" "Superscript" rA
+`!p snip.rv = match.group(1)`^{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "([a-zA-Z]|[\}\)\]\|']);" "Subscript" rA
+`!p snip.rv = match.group(1)`_{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "([^a-zA-Z])ee" "e^{} supercript" rA
+`!p snip.rv = match.group(1)`e^{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "(^|[^a-zA-Z])ff" "\frac{}{}" rA
+`!p snip.rv = match.group(1)`\frac{${1:${VISUAL:}}}{$2}$0
+endsnippet
+
+snippet "([^a-zA-Z]\\)sq" "sqrt"
+`!p snip.rv = match.group(1)` \sqrt{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "(^[^a-zA-Z]\\)" "nth root" rA
+`!p snip.rv = match.group(1)` \sqrt[$1]{${4:${VISUAL:}}}$0
+endsnippet
+
+snippet "([^a-zA-Z\\])aa" "Absolute value" rA
+`!p snip.rv = match.group(1)`\abs{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "([\w]|[\}\)\]\|'])TT" "Automatic transposed superscript" rA
+`!p snip.rv = match.group(1)`^{\top}
+endsnippet
+
+snippet "([^a-zA-Z\\])ll" "Logarithm with a base" rA
+`!p snip.rv = match.group(1)`\log_{${1:${VISUAL:}}} $0
+endsnippet
+
+snippet "([\W_\\])hh" "\hat" rA
+`!p snip.rv = match.group(1)`\hat{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "([\W_\\])bb" "\bar" rA
+`!p snip.rv = match.group(1)`\bar{${1:${VISUAL:}}}$0
+endsnippet
+
+#Integrals
+
+snippet "([^\w\\])intt" "Integral with upper and lower limit" rA
+`!p snip.rv = match.group(1)`\int_{$1}^{$2} $0
+endsnippet
+
+snippet "([^\w\\])innt" "Integral with symmetric upper and lower limit" rA
+`!p snip.rv = match.group(1)`\int_{-$1}^{$1} $0
+endsnippet
+
+snippet "([^\w\\])int3" "\iiint" rA
+`!p snip.rv = match.group(1)`\iiint
+endsnippet
+
+snippet "([^\w\\])int2" "\iint" rA
+`!p snip.rv = match.group(1)`\iint
+endsnippet
+
+#Sums
+
+snippet "([^\w\\])sM" "Sum with only lower limit" rA
+`!p snip.rv = match.group(1)`\sum_{$1} $0
+endsnippet
+
+snippet "([^\w\\])smm" "Sum with upper and lower limit" rA
+`!p snip.rv = match.group(1)`\sum_{$1}^{$2} $0
+endsnippet
+
+#Limits
+
+snippet "([^\w\\])lim" "\lim_{$1 \to $2}" rA
+`!p snip.rv = match.group(1)`\lim_{$1 \to $2} $0
+endsnippet
+
+snippet "([^\w\\])lmf" "Limit to infinity" rA
+`!p snip.rv = match.group(1)`\lim_{${1} \to \infty} $0
+endsnippet
+
+snippet "([^\w\\])lmz" "Limit to zero" rA
+`!p snip.rv = match.group(1)`\lim_{${1} \to 0} $0
+endsnippet
+
+#STATIC
+snippet xx "cdot" iA
+\cdot 
+endsnippet
+
+snippet "([\W_])inff" "\infty" rA
+`!p snip.rv = match.group(1)`\infty
+endsnippet
+
+context "math()"
+snippet "([\W_])intf" "Integral from negative to positive infinity" rA
+`!p snip.rv = match.group(1)`\int_{-\infty}^{\infty} 
+endsnippet
+
+context "math()"
+snippet >> "\implies" Ai
+\implies 
+endsnippet
+
+snippet crs "\cross" A
+\times 
+endsnippet
+
+snippet prp "\perp" A
+\perp 
+endsnippet
+
+snippet pll "\parallel" A
+\parallel 
+endsnippet
+
+snippet sbb "\subset" A
+\subset 
+endsnippet
+
+snippet mps "\mapsto" A
+\mapsto 
+endsnippet
+
+snippet "([^a-zA-Z0-9\\])eqq" "\equiv" rA
+`!p snip.rv = match.group(1)`\equiv 
+endsnippet
+
+
+# Greek letters
+#----------------------------------
+
+snippet ;N "\nabla" iA
+\nabla 
+endsnippet
+
+snippet ;a "\alpha" iA
+\alpha
+endsnippet
+
+snippet ;b "\beta" iA
+\beta
+endsnippet
+
+snippet ;g "\gamma" iA
+\gamma
+endsnippet
+
+snippet ;G "\Gamma" iA
+\Gamma
+endsnippet
+
+snippet ;d "\delta" iA
+\delta
+endsnippet
+
+snippet ;D "\Delta" iA
+\Delta 
+endsnippet
+
+snippet ;e "\epsilon" iA
+\epsilon
+endsnippet
+
+snippet ;ve "\varepsilon" iA
+\varepsilon
+endsnippet
+
+snippet ;z "\zeta" iA
+\zeta
+endsnippet
+
+# ;e is taken for \epsilon. I use ;h because capital \eta is H
+snippet ;h "\eta" iA
+\eta
+endsnippet
+
+# ;t and ;T are more appropriate but are taken by tau
+# I've used ;o and ;O since theta has an oval/circular shape
+# o and O techanically go with omnicron, but I don't use omnicron in math or physics
+snippet ;o "\theta" iA
+\theta
+endsnippet
+
+snippet ;vo "\vartheta" iA
+\vartheta
+endsnippet
+
+snippet ;O "\Theta" iA
+\Theta
+endsnippet
+
+snippet ;k "\kappa" iA
+\kappa
+endsnippet
+
+snippet ;l "\lambda" iA
+\lambda
+endsnippet
+
+snippet ;L "\Lambda" iA
+\Lambda
+endsnippet
+
+snippet ;m "\mu" iA
+\mu
+endsnippet
+
+snippet ;n "\nu" iA
+\nu
+endsnippet
+
+snippet ;x "\xi" iA
+\xi
+endsnippet
+
+snippet ;X "\Xi" iA
+\Xi
+endsnippet
+
+# p/P are taken by psi, so I've used 'i' instead, the second letter in pi
+# technically i corresponds to iota, but I don't use iota in math or physics
+snippet ;i "\pi" iA
+\pi
+endsnippet
+
+snippet ;I "\Pi" iA
+\Pi
+endsnippet
+
+snippet ;r "\rho" iA
+\rho
+endsnippet
+
+snippet ;s "\sigma" iA
+\sigma
+endsnippet
+
+snippet ;S "\Sigma" iA
+\Sigma
+endsnippet
+
+snippet ;t "\tau" iA
+\tau
+endsnippet
+
+# I use f and not p since p is taken for psi
+snippet ;f "\phi" iA
+\phi
+endsnippet
+
+snippet ;vf "\varphi" iA
+\varphi
+endsnippet
+
+snippet ;F "\Phi" iA
+\Phi
+endsnippet
+
+snippet ;c "\chi" iA
+\chi
+endsnippet
+
+snippet ;p "\psi" iA
+\psi
+endsnippet
+
+snippet ;P "\Psi" iA
+\Psi
+endsnippet
+
+# o/O would be more appropriate, but I've used o/O for theta
+# lowercase omega looks like a 'w', so its all good
+snippet ;w "\omega" iA
+\omega
+endsnippet
+
+snippet ;W "\Omega" iA
+\Omega
+endsnippet
+
