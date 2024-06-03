@@ -29,8 +29,11 @@ nnoremap <leader>u <Cmd>call UltiSnips#RefreshSnippets()<CR>
 -- and now time for vimtex lol (same as above for moving it ffs)
 vim.cmd[[
 filetype plugin indent on
+let g:vimtex_quickfix_enabled = 0
 let g:tex_flavor='latex'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_compiler_method = 'latexmk'
 let maplocalleader = ' '
+nmap <localleader>li <Plug>(vimtex-info)
+nmap <localleader>ll <Plug>(vimtex-compile)
 ]]

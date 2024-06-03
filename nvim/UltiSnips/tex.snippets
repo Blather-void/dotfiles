@@ -4,6 +4,27 @@ def math():
   return vim.eval('vimtex#syntax#in_mathzone()') == '1'
 endglobal
 
+#TEMPLATES
+#[--------------------------------]
+
+snippet twocoltemp "template for class notes, two column" b
+\documentclass[14pt, twocolumn]{article}
+\usepackage{amsmath, lipsum, commath, geometry, witharrows}
+\usepackage[]{graphicx}
+\graphicspath{{Pictures/}}
+\title{$1}
+\author{Brig C.D. Putnam}
+\date{$2}
+\begin{document}
+\maketitle
+
+$0
+
+\end{document}
+endsnippet
+
+
+
 
 #Environements
 
@@ -15,8 +36,76 @@ $2
 $0
 endsnippet
 
+snippet bal "begin align" bA
+\begin{align*}
+$1
+\end{align*}
+$0
+endsnippet
+
+snippet bli "begin list" bA
+\begin{itemize}
+$1
+\end{itemize}
+$0
+endsnippet
+
+snippet bem "begin ordered list" bA
+\begin{enumerate}
+$1
+\end{enumerate}
+$0
+endsnippet
+
+snippet bm "begin math" bA
+/[${1:${VISUAL:}}/]$0
+endsnippet
+
+#only works for book docclass
+snippet chapt "chapter" bA
+\chapter{$1}
+$0
+endsnippet
+
+snippet sct "begin section" bA
+\section{$1}
+$0
+endsnippet
+
+snippet sbct "subsection" bA
+\subsection{$1}
+$0
+endsnippet
+
+snippet sbbct "subsection" bA
+\subsubsection{$1}
+$0
+endsnippet
+
+snippet waq "with arrows equation align" bA
+\[\begin{WithArrows}
+$1
+\end{WithArrows}\]
+$0
+endsnippet
+
+snippet waa "with arrows arrow" A
+\Arrow{$1}$0
+endsnippet
+
+
+
 #Formatting stuff
 #----------------------------------
+snippet "(^|[^a-zA-Z])ul" "underline" rA
+`!p snip.rv = match.group(1)` \underline{${1:${VISUAL:}}}$0
+endsnippet
+
+snippet "(^|[\W])bf" "bold" rA
+`!p snip.rv = match.group(1)` \textbf{${1:${VISUAL:}}}$0
+endsnippet
+
+
 snippet tii "make things italic"
 \textit{${1:${VISUAL:}}}$0
 endsnippet
@@ -24,6 +113,15 @@ endsnippet
 snippet "(^|[^a-zA-Z])mm" "inline math" rA 
 `!p snip.rv = match.group(1)` \$ ${1:${VISUAL:}} \$$0
 endsnippet
+
+snippet "((^|[\W])ubr)" "underbrace" r
+`!p snip.rv = mathc.group(1)` \underbrace{${1:{VISUAL:}}}_{$2}$0
+endsnippet
+
+snippet ... "tripledot" A
+\ldots
+endsnippet
+
 
 
 #Math
