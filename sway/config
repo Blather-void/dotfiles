@@ -6,14 +6,14 @@
 
 ### Visual
 gaps inner 5
-default_border pixel 2
+default_border pixel 4
 
 
 #----------------------------------------#
 # window colours: border background text #
 #----------------------------------------#
-    client.focused          #ffc0cb #e20001 #ffffff
-    client.unfocused        #2e3440 #1A88B1 #888888
+    client.focused          #ffc0cb #D9C182 #ffffff
+    client.unfocused        #2e3440 #8B6978 #888888
     client.focused_inactive #2e3440 #1f222d #888888 
     client.placeholder      #2e3440 #1f222d #888888
     client.urgent           #D08770 #D08770 #ffffff
@@ -116,16 +116,11 @@ output * bg ~/Pictures/bgvikings.jpg fill
 #
 # Moving around:
 #
-    # Move your focus around
+    # Or use $mod+[up|down|left|right]
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
-    # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left
@@ -164,6 +159,7 @@ output * bg ~/Pictures/bgvikings.jpg fill
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+
 #
 # Layout stuff:
 #
