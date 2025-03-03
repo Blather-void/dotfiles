@@ -1,0 +1,5 @@
+set recolor true
+set highlight-transparency 0.025
+
+set recolor-lightcolor      "#445659"
+set recolor-darkcolor       "#f5f0b0"
